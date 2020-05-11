@@ -137,6 +137,7 @@ public class BitwiseOperators {
         System.out.println(oddAppearingNumberXOR());
         System.out.println(findMissingNumber());
         twoOddAppearingNumbers();
+        powerSet();
     }
 
     /**
@@ -456,7 +457,19 @@ public class BitwiseOperators {
      * Time complexity : 2^n * n
      */
     public static void powerSet() {
+        String text = "abcd";
+        int n = (int) Math.pow(2, text.length());
+        String[] strings = text.split("");
 
+        for (int i = 0; i < n; i++) {
+            String temp = "";
+            for (int j = 0; j < strings.length; j++) {
+                if (((i >> strings.length - j - 1) & 1) == 1) {
+                    temp = temp + strings[j];
+                }
+            }
+            System.out.println(temp);
+        }
     }
 
 
