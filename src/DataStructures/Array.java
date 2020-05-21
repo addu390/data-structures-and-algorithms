@@ -92,6 +92,26 @@ public class Array {
         }
 
         reverseArray(ints);
+
+        int[] intArray = new int[]{ 1, 1, 2, 2, 2, 4, 5 };
+        System.out.println("Size of the distinct array : " + removeDuplicates(intArray));
+        System.out.println("Size of the distinct array : " + removeDuplicatesTwo(intArray));
+
+        int[] left = new int[]{ 1, 2, 3, 4, 5};
+        leftRotate(left);
+
+        int[] leftD = new int[]{ 1, 2, 3, 4, 5};
+        leftRotate(leftD, 3);
+
+        int[] rev = new int[]{ 1, 2, 3, 4, 5};
+        leftRotateAux(rev, 2);
+
+        int[] lead = new int[]{ 7, 10, 4, 3, 6, 5, 2 };
+        arrayLeader(lead);
+
+        int[] max = new int[]{ 2, 1, 10, 0, 6, 4 };
+        System.out.println("Max difference : " + maxDifference(max));
+        System.out.println("Max difference : " + maxDifferenceTwo(max));
     }
 
     /**
@@ -112,5 +132,191 @@ public class Array {
             ints[ints.length - 1 - i] = temp;
         }
         return ints;
+    }
+
+    /**
+     * Remove duplicates from sorted array.
+     * Ensure that the distinct elements are in first positions.
+     * Example : [10, 20, 20, 30, 30, 30]
+     * Output : [10, 20, 30] with size of 3.
+     * Time complexity : O(n)
+     * Auxiliary space : O(n) - Since a temporary array is used.
+     */
+    public static int removeDuplicates(int[] ints) {
+        int[] temp = new int[ints.length];
+        temp[0] = ints[0];
+        int count = 1;
+
+        for (int i = 0; i < ints.length - 1; i++) {
+            if (ints[i + 1] > ints[i]) {
+                temp[count] = ints[i + 1];
+                count = count + 1;
+            }
+        }
+
+        // Copy contents of temp to the original array.
+        for (int i = 0; i < ints.length - 1; i++) {
+            ints[i] = temp[i];
+        }
+        return count;
+    }
+
+    /**
+     * Remove duplicates from sorted array.
+     * Same problem without using a temporary array.
+     * Time complexity : O(n)
+     * Auxiliary space : O(1)
+     */
+    public static int removeDuplicatesTwo(int[] ints) {
+        int newIndex = 0;
+        for (int i = 1; i < ints.length; i++) {
+            if (ints[i] > ints[i - 1]) {
+                newIndex = newIndex + 1;
+                ints[newIndex] = ints[i];
+            }
+        }
+        return newIndex;
+
+    }
+
+    /**
+     * Left rotate an array by one.
+     * Example : [1, 2, 3, 4, 5] -> [2, 3, 4, 5, 1]
+     */
+    public static int[] leftRotate(int[] ints) {
+
+        int temp = ints[0];
+        for (int i = 1; i < ints.length; i++) {
+            ints[i - 1] = ints[i];
+        }
+        ints[ints.length - 1] = temp;
+        return ints;
+
+    }
+
+    /**
+     * Left rotate by D places.
+     * Considering that the left rotate by 1 is already done, calling it d times solves the problem.
+     * Complexity : O(n * d), but Auxiliary space is O(1)
+     * Example : [1, 2, 3, 4, 5], d = 2 -> [3, 4, 5, 1, 2]
+     * Complexity : O(n)
+     * Auxiliary space : O(d)
+     */
+    public static int[] leftRotate(int[] ints, int d) {
+
+        // Temporarily store the first "d" numbers.
+        int[] temp = new int[d];
+        for (int i = 0; i < d; i++) {
+            temp[i] = ints[i];
+        }
+
+        // Do left shift by d.
+        for (int i = d; i < ints.length; i++) {
+            ints[i - d] = ints[i];
+        }
+
+        // Replace the last d numbers by values in temp
+        int counter = ints.length - 1;
+        for (int i = d - 1; i >= 0; i--) {
+            ints[counter] = temp[i];
+            counter = counter - 1;
+        }
+        return ints;
+    }
+
+
+    /**
+     * By looking at the pattern : [1, 2, 3, 4, 5]
+     * 1. Reverse the first d elements : [2, 1, 3, 4, 5]
+     * 2. Reverse the rest of the elements : [2, 1, 5, 4, 3]
+     * 3. Reverse the entire array : [3, 4, 5, 1, 2]
+     * Complexity : O(n)
+     * Auxiliary space : O(1)
+     */
+    public static int[] leftRotateAux(int[] ints, int d) {
+        // 1. Reverse the first d elements : [2, 1, 3, 4, 5]
+        reverse(ints, 0, d - 1);
+
+        // 2. Reverse the rest of the elements : [2, 1, 5, 4, 3]
+        reverse(ints, d, ints.length - 1);
+
+        // 3. Reverse the entire array : [3, 4, 5, 1, 2]
+        reverse(ints, 0, ints.length - 1);
+        return ints;
+    }
+
+    // 1 2 3 4 5
+    public static void reverse(int[] ints, int n, int k) {
+        for (int i = n; i < k; i++) {
+            int temp = ints[i];
+            ints[i] = ints[k];
+            ints[k] = temp;
+            k = k - 1;
+        }
+    }
+
+    /**
+     * What is a leader : An element is a leader, when elements towards the right of it is smaller than it.
+     * Example : [7, 10, 4, 3, 6, 5, 2]
+     * Leaders : 10, 6, 5, 2 (Last element is always a leader).
+     * Sorted array in descending order, all elements are leaders except last element.
+     * Sorted array in ascending order, none of the elements are leaders.
+     * The obvious way of solving is O(n^2), for each element check if there is any element greater than it on the right.
+     * The O(n) solution is to start from the last and compare with previous term.
+     */
+    public static void arrayLeader(int[] ints) {
+        int max = ints[ints.length - 1];
+        System.out.println("Leader : " + max);
+        for (int i = ints.length - 1; i > 0; i--) {
+            if (ints[i - 1] > max) {
+                System.out.println("Leader : " + ints[i - 1]);
+                max = ints[i - 1];
+            }
+        }
+    }
+
+    /**
+     * Given an array of integers, find the max difference.
+     * Example : [2, 3, 10, 6, 4]
+     * Output : 10 - 2 = 8
+     * In simple words, find smallest and largest number and return the difference.
+     * Time complexity : O(n)
+     * Auxiliary space : O(1)
+     */
+    public static int maxDifference(int[] ints) {
+
+        int max = ints[0];
+        int min = ints[0];
+        for (int i = 0; i < ints.length; i++) {
+            if (ints[i] > max) {
+                max = ints[i];
+            }
+            if (ints[i] < min) {
+                min = ints[i];
+            }
+        }
+        return max - min;
+
+    }
+
+    /**
+     * Given an array of integers, find the max difference. arr[j] - arr[i]
+     * Such that j > i
+     * Smaller term has to be before larger term.
+     * The brute force solution is O(n^2)
+     * Example : [2, 1, 10, 6, 4]
+     * Output : 10 - 1 = 9
+     */
+    public static int maxDifferenceTwo(int[] ints) {
+
+        int min = ints[0];
+        int diff = ints[1] - ints[0];
+        for (int i = 1; i < ints.length; i++) {
+            min = Math.min(ints[i], min);
+            if ((ints[i] - min) > diff) {
+                diff = ints[i] - min;
+            }
+        }
+        return diff;
     }
 }
