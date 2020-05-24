@@ -1,4 +1,4 @@
-package Algorithms.Sort;
+package algorithms.sort;
 
 /**
  * When there are duplicates in an array

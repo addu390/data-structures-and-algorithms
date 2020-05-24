@@ -1,4 +1,4 @@
-package Algorithms;
+package algorithms;
 
 /**
  * Subtracting 1 from a decimal number flips all the bits after the rightmost set bit(which is 1)

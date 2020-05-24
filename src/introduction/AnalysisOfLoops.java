@@ -1,4 +1,4 @@
-package Introduction;
+package introduction;
 
 public class AnalysisOfLoops {
 

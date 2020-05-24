@@ -1,4 +1,4 @@
-package Algorithms.Sort;
+package algorithms.sort;
 
 public class SelectionSort {
 

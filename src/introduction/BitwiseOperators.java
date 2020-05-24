@@ -1,4 +1,4 @@
-package Introduction;
+package introduction;
 
 /**
  * Remember : Left shift of a small number, multiplies a number by 2 (8421)

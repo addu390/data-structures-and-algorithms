@@ -1,4 +1,4 @@
-package DataStructures;
+package dataStructures;
 
 /**
  * a = [1, 3, 5, 7]
@@ -112,6 +112,28 @@ public class Array {
         int[] max = new int[]{ 2, 1, 10, 0, 6, 4 };
         System.out.println("Max difference : " + maxDifference(max));
         System.out.println("Max difference : " + maxDifferenceTwo(max));
+
+        int[] profit = new int[]{1, 5, 3, 8, 12};
+        System.out.println("profit is : " + stock(profit));
+
+        int[] hist = new int[]{3, 0, 1, 2, 5};
+        System.out.println("Max water stored : " + histogram(hist));
+        System.out.println("Max water stored : " + histogramN(hist));
+
+        int[] ones = new int[]{1, 1, 1, 0, 0, 1, 1};
+        System.out.println("Max count of 1s : " + maxOnes(ones));
+
+        int[] subset = new int[]{-2, 1, 2, 3, -1, 10};
+        System.out.println("Max sum of subset is : " + maxSubsetSum(subset));
+
+        int[] oddEven = new int[]{10, 12, 14, 7, 8};
+        System.out.println("Longest odd even : " + longestOddEven(oddEven));
+
+        System.out.println("Max sum of circular sub-array is : " + sumCircularSubArray(subset));
+        System.out.println("Max sum of circular sub-array is : " + sumCircularSubArrayN(subset));
+
+        int[] major = new int[]{1, 2, 2, 2, 7, 2};
+        System.out.println("Majority element index is : " + majorityElement(major));
     }
 
     /**
@@ -318,5 +340,269 @@ public class Array {
             }
         }
         return diff;
+    }
+
+    /**
+     * Given a list a numbers, representing the stock prices,
+     * determines when to buy and sell to get the max profit.
+     * Example : [1, 5, 3, 8, 12] -> Buy and sell from left to write (Obviously)
+     * Output : 13
+     * How? : Buy stock on 1 and sell on 5 (4)
+     * Buy stock on 3 and sell on 12 (9)
+     * 9 + 4 = 13.
+     * Hint : If the array is sorted in increasing order, buy on first day and sell on last.
+     * The basic idea is to find the peak points and bottom points.
+     * ie. when ever the next value is greater than the previous, add that to profit.
+     */
+    public static int stock(int[] ints) {
+
+        int profit = 0;
+        for (int i = 1; i < ints.length; i++) {
+            if (ints[i] > ints[i - 1]) {
+                profit = profit + (ints[i] - ints[i - 1]);
+            }
+        }
+        return profit;
+    }
+
+    /**
+     * Trapping the rain water,
+     * Let's you've a 2D histogram and fill it with water,
+     * Find the amount of water trapped.
+     * Example : [2, 0, 2]
+     * Output : 2
+     * Example : [3, 0, 1, 2, 5]
+     * Output : 6
+     * Histogram : https://magoosh.com/statistics/how-to-make-a-histogram/
+     * Hint : If array is sorted, water collected is ZERO.
+     * 1. Find left and right max for every i.
+     * 2. min (left max, right max) - array[i].
+     * Complexity : O(n^2)
+     */
+    public static int histogram(int[] ints) {
+
+        int res = 0;
+        for (int i = 1; i < ints.length - 1; i++) {
+            int lmax = ints[i];
+            for (int j = 0; j <= i; j++) {
+                lmax = Math.max(lmax, ints[j]);
+            }
+
+            int rmax = ints[i];
+            for (int j = i; j < ints.length; j++) {
+                rmax = Math.max(rmax, ints[j]);
+            }
+            res = res + (Math.min(lmax, rmax) - ints[i]);
+        }
+        return res;
+    }
+
+    /**
+     * Now the same problem can be solved with O(n)
+     * Rather than computing for every index, pre compute left max and right max.
+     * 1. Find left max for every element,
+     * Example : [5, 0, 6, 2, 3] -> [5, 5, 6, 6, 6]
+     * 2, Right max for every element
+     * Example : [5, 0, 6, 2, 3] -> [6, 6, 6, 3, 3]
+     */
+    public static int histogramN(int[] ints) {
+        int res = 0;
+
+        int[] lmax = new int[ints.length];
+        int[] rmax = new int[ints.length];
+
+        lmax[0] = ints[0];
+        for (int i = 1; i < ints.length; i++) {
+            lmax[i] = Math.max(ints[i], lmax[i - 1]);
+        }
+
+        rmax[ints.length - 1] = ints[ints.length - 1];
+        for (int i = ints.length - 2; i >= 0; i--) {
+            rmax[i] = Math.max(ints[i], rmax[i + 1]);
+        }
+
+        for (int i = 1; i < ints.length - 1; i++) {
+            res = res + (Math.min(lmax[i], rmax[i]) - ints[i]);
+        }
+        return res;
+    }
+
+    /**
+     * Count maximum consecutive 1s
+     * Example : [1, 1, 1, 0, 0, 1, 1]
+     * Output : 3
+     * Complexity : O(n)
+     * Auxiliary space : O(1)
+     * Skipping the naive approach with O(n^2) complexity.
+     */
+    public static int maxOnes(int[] ints) {
+        int max = 0;
+        int currentCount = 0;
+        for (int i = 0; i < ints.length; i++) {
+            if (ints[i] == 1) {
+                currentCount = currentCount + 1;
+            }
+            if ((ints[i] == 0) || (i == ints.length - 1)) {
+                max = Math.max(currentCount, max);
+                currentCount = 0;
+            }
+
+        }
+        return max;
+    }
+
+    /**
+     * Given an array, find the maximum sum of the sub-array.
+     * continuous sub-array.
+     * Example : [1, 2, 3] -> [1], [2], [3], [1, 2], [2, 3], [1, 2, 3]
+     * Output : 6.
+     * Yes, when you have positive element, the answer is sum of all elements.
+     * However, this changes, if the array has negative elements.
+     * The naive approach will be O(n^2), to find the sub arrays starting from i and find max of it.
+     * Moving on to O(n) solution.
+     * Solve for : [-2, 1, 2, 3, -1]
+     * Kadane's algorithm
+     */
+    public static int maxSubsetSum(int[] ints) {
+        int max = ints[0];
+        int res = ints[0];
+
+        for (int i = 1; i < ints.length; i++) {
+            max = Math.max(max + ints[i], ints[i]);
+            res = Math.max(max, res);
+        }
+        return res;
+    }
+
+    /**
+     * Find longest odd even sub-array (Contiguous).
+     * Example : [1, 2, 6, 4].
+     * Output : 3.
+     * Naive approach : O(n^2)
+     * Check if arr[i] and arr[i - 1] is odd even/ even odd respectively, if yes -> increment the counter.
+     * max variable is used to keep the max count.
+     * Complexity : O(n)
+     * Auxiliary space : O(1)
+     */
+    public static int longestOddEven(int[] ints) {
+        int counter = 1;
+        int max = 1;
+        for (int i = 1; i < ints.length; i++) {
+            if ((ints[i] % 2 == 0 && ints[i - 1] % 2 != 0) ||
+                    (ints[i] % 2 != 0 && ints[i - 1] % 2 == 0)) {
+                counter = counter + 1;
+                max = Math.max(max, counter);
+            } else {
+                counter = 1;
+            }
+
+        }
+        return max;
+
+    }
+
+    /**
+     * Maximum sum of circular sub-array (Contiguous)
+     * Example : [1, 2, 3]
+     * Possible sub-arrays : [1], [2], [3], [1, 2], [2, 3], [3, 1], [1, 2, 3], [2, 3, 1], [3, 1, 2]
+     * Find the max sum from these sub-arrays
+     * Naive approach : O(n^2)
+     */
+    public static int sumCircularSubArray(int[] ints) {
+
+        int res = ints[0];
+        for (int i = 0; i < ints.length; i++) {
+            int max = ints[0];
+            int sum = ints[0];
+            for (int j = 1; j < ints.length; j++) {
+                // To ensure circular sub-array is considered.
+                int index = (i + j) % ints.length;
+                sum = sum + ints[index];
+                max = Math.max(sum, max);
+            }
+            res = Math.max(res, max);
+        }
+        return res;
+    }
+
+    /**
+     * Same problem with O(n) complexity.
+     * Find the max sum of normal sub-array : Kadane's algorithm
+     * Find the max sum of circular sub-array  : Kadane's algorithm
+     * Find the max of both of these two.
+     * PATTERN: Yes, by looking at the pattern, it can be found that
+     * the max circular sub-array = Total sum of array - Min normal sub-array (Found using kadane's algorithms).
+     *
+     * Example : [5, -2, 3, 4], in this min sub-array is [-2] and total sum is 10.
+     * therefore, max sum is 10 - (-2) = 12
+     */
+    public static int sumCircularSubArrayN(int[] ints) {
+
+        int normalSubarrayMax = ints[0];
+        int normalSubarrayMin = ints[0];
+        int total = 0;
+        int max = ints[0];
+        int min = ints[0];
+
+        for (int i = 0; i < ints.length; i++) {
+            total = total + ints[i];
+        }
+
+        for (int i = 1; i < ints.length; i++) {
+            max = Math.max(max + ints[i], ints[i]);
+            normalSubarrayMax = Math.max(normalSubarrayMax, max);
+        }
+
+        // Or you can invert the array and use the same function used to find max sub-array.
+        for (int i = 1; i < ints.length; i++) {
+            min = Math.min(min + ints[i], ints[i]);
+            normalSubarrayMin = Math.min(normalSubarrayMin, min);
+        }
+
+        return Math.max(normalSubarrayMax, (total - normalSubarrayMin));
+    }
+
+    /**
+     * Find majority element,
+     * if a element occurs more than n/2 + 1 times.
+     * Output : Any of index of the majority element.
+     * Example : [8, 3, 4, 8, 8]
+     * Output : 0 or 3 or 4.
+     * If no element -> Then return -1.
+     * The naive approach is easy with O(n^2)
+     * One other easy solution is to have a map to hold the count, but this would require auxiliary space of O(n)
+     * This solution : O(n) time complexity and O(1) auxiliary space.
+     * Phase 1 : Find the candidate.
+     * Phase 2 : CHeck if the candidate is Majority.
+     * Moore’s Voting
+     */
+    public static int majorityElement(int[] ints) {
+        int resIndex = 0;
+        int counter = 1;
+        for (int i = 1; i < ints.length; i++) {
+            if (ints[resIndex] == ints[i]) {
+                counter = counter + 1;
+            }
+            else {
+                counter = counter - 1;
+            }
+            if (counter == 0) {
+                resIndex = i;
+                counter = 1;
+            }
+        }
+
+        // Without out the below code, we now have the most repeated element in the array,
+        // whose index is resIndex, in the below code we are checking if it is Majority or not.
+        counter = 0;
+        for (int i = 0; i < ints.length; i++) {
+            if (ints[i] == ints[resIndex]) {
+                counter = counter + 1;
+            }
+        }
+        if (counter <= (ints.length / 2)) {
+            resIndex = -1;
+        }
+        return resIndex;
     }
 }
