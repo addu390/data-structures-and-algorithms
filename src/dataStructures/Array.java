@@ -134,6 +134,26 @@ public class Array {
 
         int[] major = new int[]{1, 2, 2, 2, 7, 2};
         System.out.println("Majority element index is : " + majorityElement(major));
+
+
+        int[] sliding = new int[]{1, 8, 30, -5, 20, 7};
+        System.out.println("Sliding window max : " + slidingWindow(sliding, 3));
+
+        System.out.println("Sliding window sum present? : " + slidingWindowSum(sliding, 3, 45));
+        System.out.println("Sliding window sum present? : " + slidingWindowSum(sliding, 3, 46));
+
+        System.out.println("Sliding window sum present? : " + slidingWindowSum(sliding, 45));
+
+        System.out.println("The sum is : " + prefix(sliding, 0, 2));
+        System.out.println("The sum is : " + prefix(sliding, 1, 2));
+
+        int[] equilibrium = new int[]{3, 4, 8, -9, 20, 6};
+        equilibrium(equilibrium);
+        equilibriumN(equilibrium);
+
+        int[] leftArr = new int[]{1, 2, 3};
+        int[] rightArr = new int[]{3, 5, 7};
+        System.out.println("Max occurred element : " + range(leftArr, rightArr));
     }
 
     /**
@@ -605,4 +625,221 @@ public class Array {
         }
         return resIndex;
     }
+
+    /**
+     * Window sliding technique.
+     * A typical example for this is, given a sliding window of -> K = 3
+     * Find the max sum (Find the max sum with contiguous 3 terms in this case)
+     * Example : [1, 3, 6, 5] -> 1 + 3 + 6, 3 + 6 + 5
+     * Hence answer = 14
+     * The naive approach is O((n - k) * k), where for every element, find the sum of K elements from i.
+     * SLIDING WINDOW for O(n).
+     * Auxiliary space : O(1)
+     */
+    public static int slidingWindow(int[] ints, int k) {
+
+        int sum = 0;
+        int index = 0;
+        // Compute the sum of first window.
+        for (int i = 0; i < k; i++) {
+            sum = sum + ints[i];
+        }
+        int max = sum;
+        for (int i = k; i < ints.length; i++) {
+            sum = sum - ints[index] + ints[i];
+            max = Math.max(max, sum);
+            index = index + 1;
+        }
+        return max;
+    }
+
+    /**
+     * Slight variation in the same problem, give an array, sliding window k and a sum S.
+     * True/ false if that sum is present or not.
+     */
+    public static boolean slidingWindowSum(int[] ints, int k, int s) {
+
+        boolean isPresent = false;
+        int sum = 0;
+        int index = 0;
+        // Compute the sum of first window.
+        for (int i = 0; i < k; i++) {
+            sum = sum + ints[i];
+        }
+        int max = sum;
+        for (int i = k; i < ints.length; i++) {
+            sum = sum - ints[index] + ints[i];
+            if (sum == s) {
+                isPresent = true;
+            }
+            index = index + 1;
+        }
+        return isPresent;
+    }
+
+    /**
+     * Extending the prior problem, if the the sliding window size k is now given.
+     * Solve the problem with O(n)
+     * Given an array of non-negative numbers and a sum S, return True/ False if a sub-array exists or not.
+     * Approach : Find the sum until it's equal or greater,
+     * if greater, start subtracting from the start until equal.
+     * If equal was never found, return false.
+     * Time complexity : O(n)
+     * Auxiliary space : O(1)
+     * However this approach does not work for negative elements : [4, 7, -3, 1, 2], s = 9
+     */
+    public static boolean slidingWindowSum(int[] ints, int s) {
+        int sum = 0;
+        int index = 0;
+        for (int i = 0; i < ints.length; i++) {
+            sum = sum + ints[i];
+            if (sum == s) {
+                return true;
+            }
+            if (sum > s) {
+                index = i;
+                break;
+            }
+        }
+
+        for (int i = 0; i <= index; i++) {
+            sum = sum - ints[i];
+            if (sum == s) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    /**
+     * N-bonacci numbers, given a number n, m
+     * Fibonacci is 2-bonacci, similarly find N-binacci.
+     * Find sum of first m, n bonacci numbers.
+     * Every element is going to be sum of n previous elements.
+     * This is exactly same as the sliding window, where n is the sliding window in this case.
+     *
+     * Find distinct elements in every sliding window.
+     * Example : [1, 2, 1, 3, 4, 3, 3] -> 3, 4, 3, 2.
+     */
+
+    /**
+     * Programming technique : Prefix sum.
+     * For a fixed array, given start and end index, find the sum.
+     * A simple solution is to loop from start to end eindex, but the point here is to optimise this.
+     * Considering there will be a lot of such queries running.
+     * Obviously, by doing pre-processing, find the sum with O(1).
+     * Steps : Pre-compute an array, which holds the sum if firth ith terms.
+     * Example : [1, 2, 4] -> [1, 3, 7] -> This would take O(n)
+     */
+    public static int prefix(int[] ints, int s, int e) {
+
+        int[] temp = new int[ints.length];
+        temp[0] = ints[0];
+        int sum = ints[0];
+        for (int i = 1; i < ints.length; i++) {
+            sum = sum + ints[i];
+            temp[i] = sum;
+        }
+
+        if (s == 0) {
+            return temp[e];
+        }
+
+        return temp[e] - temp[s - 1];
+    }
+
+    /**
+     * Find if there is a equilibrium point.
+     * That is, sum of elements before it and after it is the same.
+     * Example : [3, 4, 8, -9, 20, 6], in this case, equilibrium point is 20.
+     * Sum : [3, 7, 15, 6, 26, 32]
+     * O(n) time complexity.
+     * O(n) Auxiliary space.
+     */
+    public static boolean equilibrium(int[] ints) {
+        boolean isEquilibrium = false;
+        int[] temp = new int[ints.length];
+        temp[0] = ints[0];
+        int sum = ints[0];
+        for (int i = 1; i < ints.length; i++) {
+            sum = sum + ints[i];
+            temp[i] = sum;
+        }
+
+        for (int i = 1; i < ints.length - 1; i++) {
+            if ((temp[i - 1]) == temp[ints.length - 1] - temp[i]) {
+                isEquilibrium = true;
+                System.out.println("equilibrium point is : " + ints[i]);
+                break;
+            }
+        }
+        return isEquilibrium;
+    }
+
+    /**
+     * Same problem (Find if there is a equilibrium point) without using a temp array.
+     * O(n) time complexity.
+     * O(1) Auxiliary space.
+     */
+    public static boolean equilibriumN(int[] ints) {
+        boolean isEquilibrium = false;
+
+        // Total SUM.
+        int totalSum = ints[0];
+        for (int i = 1; i < ints.length; i++) {
+            totalSum = totalSum + ints[i];
+        }
+
+        int currentSum = ints[0];
+        for (int i = 1; i < ints.length - 1; i++) {
+            if ((totalSum - (currentSum + ints[i])) == currentSum) {
+                isEquilibrium = true;
+                System.out.println("equilibrium point is : " + ints[i]);
+                break;
+            }
+            currentSum = currentSum + ints[i];
+        }
+        return isEquilibrium;
+    }
+
+    /**
+     * Given a range of arrays, find the most repeated term in all ranhes.
+     * l = [1, 2, 5, 15], r = [5, 8, 7, 18]
+     * This is read as l[i] to r[i], 1 to 5, 2 to 8 and so on.
+     * From this, 5 is present in the first three ranges, which is the output.
+     * Hint : The values of ranges are not too extreme, assume that it's always less than 1000 for example.
+     */
+    public static int range(int[] left, int[] right) {
+        int[] maxArray = new int[1000];
+
+        // Adding +1 at Li index and
+        // substracting 1 at Ri index.
+        for (int i = 0; i < left.length; i++) {
+            maxArray[left[i]] += 1;
+            // -1 is done to ensure that the prefix sum stops and will be lesser than the max value.
+            maxArray[right[i] + 1] -= 1;
+        }
+
+        int sum = maxArray[0];
+        int index = 0;
+        for (int i = 1; i < 1000; i++) {
+            maxArray[i] = maxArray[i] + maxArray[i - 1];
+            // This should be < and <=, as we want the max sum the first time it's incremented (Rest number might be zero).
+            if (sum < maxArray[i]) {
+                sum = maxArray[i];
+                // Index of maxArray is the number itself.
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    /**
+     * Similar problems solved using pre-fix array.
+     * 1. Check if the array can be divided into equal sum sub-array [1, 3, 2, 2] -> [1, 3] [2, 2]
+     * 2. Check if there is a sub array with sum Zero (Any sum S).
+     * 3. Find longest sub-array with equal 0s and 1s (Binary array), output is the size of the longest sub-array.
+     * Example : [1, 1, 0, 0, 0, 0, 1] ->  [1, 1, 0, 0] -> 4.
+     */
 }
