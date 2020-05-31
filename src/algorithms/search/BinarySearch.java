@@ -19,6 +19,10 @@ public class BinarySearch {
         int[] pivot = new int[]{ 10, 20, 40, 50, 6, 7, 8 };
         System.out.println("Pivot index is : " + binarySearchPivot(pivot, 0,  pivot.length - 1));
         System.out.println("Floor square root is : " + squareRoot(17));
+
+        int[] median1 = new int[]{ 10, 20, 30 };
+        int[] median2 = new int[]{ 5, 15, 25, 35, 45 };
+        System.out.println("Median is : " + median(median1, median2));
     }
 
     /**
@@ -181,6 +185,58 @@ public class BinarySearch {
             }
         }
         return ans;
+    }
+
+    /**
+     * Given two sorted arrays, find the median of the two arrays.
+     * Example : [10, 20, 30], [11, 12, 13] -> [10, 11, 12, 13, 20, 30]
+     * Median = (12 + 13)/2 = 12.5
+     * Middle element in case of odd number of elements.
+     * Naive approach is to combine the two arrays and sort it : (n + m) log (n + m).
+     * Solve the problem with O(log (n + m)).
+     *
+     * Approach using Binary search.
+     * We maintain 2 sets, where all the elements in left set are smaller than all the elements in right set.
+     * These are logical separations and not actual sets.
+     * min1 - Minimum element on the right side of a1.
+     * min2 - Minimum element on the right side of a2.
+     * max1 - Maximum element on the left side of a1.
+     * max2 - Maximum element on the left side of a2.
+     * Condition : Max(max1, max2) should be lesser than Min(min1, min2).
+     * Once the condition is met : (Max(max1, max2) + Min(min1, min2))/2.
+     * Time complexity : O(log n), where n is the size of the biggest array of the two.
+     */
+    public static double median(int[] a1, int[] a2) {
+
+        int n1 = a1.length - 1;
+        int n2 = a2.length - 1;
+
+        int start = 0;
+        int end = n1;
+
+        while (start <= end) {
+            int i1 = (start + end)/2;
+            int i2 = ((n1 + n2 + 1)/2) - i1;
+
+            int min1 = a1[i1];
+            int max1 = a1[i1 - 1];
+
+            int min2 = a2[i2];
+            int max2 = a2[i2 - 1];
+
+            if (max1 <= min2 && max2 <= min1) {
+                if (((n1 + n2) % 2) == 0) {
+                    return (double) ((Math.max(max1, max2)) + (Math.min(min1, min2)))/2;
+                } else {
+                    return (double) Math.max(max1, max2);
+                }
+            } else if (max1 > min2) {
+                end = i1 - 1;
+            } else {
+                start = i1 + 1;
+            }
+        }
+        return -1;
     }
 
 }

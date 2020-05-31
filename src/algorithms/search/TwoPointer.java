@@ -74,16 +74,4 @@ public class TwoPointer {
      * Similar problem based on tow pointer, find if there is a value matching a^2 + b^2 = c^2.
      * Also asked as : Find if there is a pythagoras triplet in the given array.
      */
-
-    /**
-     * Given two sorted arrays, find the median of the two arrays.
-     * Example : [10, 20, 30], [11, 12, 13] -> [10, 11, 12, 13, 20, 30]
-     * Median = (12 + 13)/2 = 12.5
-     * Middle element in case of odd number of elements.
-     * Naive approach is to combine the two arrays and sort it : (n + m) log (n + m).
-     * Solve the problem with O(log (n + m)).
-     */
-    public static void median(int[] intsA, int[] intsB) {
-
-    }
 }
