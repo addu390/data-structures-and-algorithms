@@ -726,7 +726,7 @@ public class Array {
     /**
      * Programming technique : Prefix sum.
      * For a fixed array, given start and end index, find the sum.
-     * A simple solution is to loop from start to end eindex, but the point here is to optimise this.
+     * A simple solution is to loop from start to end index, but the point here is to optimise this.
      * Considering there will be a lot of such queries running.
      * Obviously, by doing pre-processing, find the sum with O(1).
      * Steps : Pre-compute an array, which holds the sum if firth ith terms.
