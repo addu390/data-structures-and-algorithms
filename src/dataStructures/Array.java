@@ -804,7 +804,7 @@ public class Array {
     }
 
     /**
-     * Given a range of arrays, find the most repeated term in all ranhes.
+     * Given a range of arrays, find the most repeated term in all ranges.
      * l = [1, 2, 5, 15], r = [5, 8, 7, 18]
      * This is read as l[i] to r[i], 1 to 5, 2 to 8 and so on.
      * From this, 5 is present in the first three ranges, which is the output.
