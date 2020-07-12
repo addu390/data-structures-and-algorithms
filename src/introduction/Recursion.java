@@ -401,6 +401,4 @@ public class Recursion {
         sum = sum + (Integer.parseInt(strings[index]) * (int) Math.pow(10, strings.length - 1 - index));
         return atoi(str, index - 1, sum);
     }
-
-
 }
