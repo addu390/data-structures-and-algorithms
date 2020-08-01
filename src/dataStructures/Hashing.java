@@ -1,5 +1,10 @@
 package dataStructures;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+
 /**
  * Yes, Hashing is a technique.
  * Search, Insert and Delete in O(1).
@@ -19,6 +24,12 @@ public class Hashing {
 
     public static void main(String[] args) {
 
+        hastSet();
+        hastMap();
+
+        int[] ints = new int[]{2, 1, 2, 3, 1, 10};
+        System.out.println("Distinct elemets count is: " + countDistinctElements(ints));
+        findFrequency(ints);
     }
 
     /**
@@ -59,8 +70,102 @@ public class Hashing {
         3. Self balancing BST (AVL, Red-black tree) - Used in Java 8 for hashing.
 
      * 2. Open addressing.
+     * Use single array, hence size of the hash table should be a minimum of number of keys.
+     * Collision handling techniques:
+        a. Linear probing: Linearly search for next empty spot when there is a collision.
+           If last slot is occupied, start from first (Circular manner).
+           Search until a key is found/ next empty slot/ all elements are traversed.
+           For delete: Marking it as empty will hamper the search, hence mark it as "DELETED" and search is not stopped
+            when "DELETED", but insert use "DELETED" slots.
+           As the cluster size increases, the complexity increases, hence impacting performance.
+           (Hash(key) + i) % m
+            Primary clustering.
+        b. Quadratic probing: (Hash(key) + i^2) % m - Instead going to the next slot, go to the i^2 slot.
+            Secondary clusters.
+            Possibility of not finding empty slots.
+            Load factor = 0.5 (Hash table is double) and m is prime, then Quadratic probing is guaranteed to work.
+        c. Double hashing: Hash(key, i) = (h1(key) + i*h2(key)) % m
+            i*h2(key) is the offset, for linear probing - offset is 1.
+            example: h1 = key % 7 and h2 = 6 - (key % 6), where size of the hashtable is 6.
+            When ever a collision happens, i is incremented.
+            Uses two hash functions.
+            No clustering.
+            If h2(key) and m are relatively prime, we will mostly find a new slot.
+     *
      */
     public static void hash() {
 
+    }
+
+    /**
+     * Hashset in JAVA.
+     * Datatype cannot be primitive.
+     * Order is not defined while printing contents.
+     * Complexity: O(1) on an average.
+     * Can only store keys.
+     */
+    public static void hastSet() {
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.add("test1");
+        hashSet.add("test2");
+        boolean isPresent = hashSet.contains("test1");
+        hashSet.remove("test1");
+
+        Iterator<String> iterator = hashSet.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+
+        for (String s: hashSet) {
+            System.out.println(s);
+        }
+        hashSet.clear();
+        System.out.println(hashSet.size());
+    }
+
+    /**
+     * Used to store key-value pairs.
+     * HashMap extends the MAP (key value) interface.
+     * Order cannot be defined.
+     * Put, contains, get etc have a time complexity of O(1) on Average.
+     */
+    public static void hastMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("key1", "value1");
+        map.put("key2", "value3");
+        map.remove("key2");
+        System.out.println(map.size());
+
+        for (Map.Entry<String, String> s: map.entrySet()) {
+            System.out.println(s.getKey() + s.getValue());
+        }
+    }
+
+    /**
+     * Time complexity: O(n)
+     * Space complexity: O(n)
+     */
+    public static int countDistinctElements(int[] ints) {
+        HashSet<Integer> hashSet = new HashSet<>();
+        for (int i: ints) {
+            hashSet.add(i);
+        }
+        return hashSet.size();
+    }
+
+    public static HashMap<Integer, Integer> findFrequency(int[] ints) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i: ints) {
+            if (map.containsKey(i)) {
+                int count = map.get(i);
+                map.replace(i, count + 1);
+            } else {
+                map.put(i, 1);
+            }
+        }
+        for (Map.Entry<Integer, Integer> s: map.entrySet()) {
+            System.out.println(s.getKey() + " --> " + s.getValue());
+        }
+        return map;
     }
 }
