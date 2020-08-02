@@ -1,9 +1,8 @@
 package dataStructures;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
+import com.sun.xml.internal.ws.policy.EffectiveAlternativeSelector;
+
+import java.util.*;
 
 /**
  * Yes, Hashing is a technique.
@@ -30,6 +29,34 @@ public class Hashing {
         int[] ints = new int[]{2, 1, 2, 3, 1, 10};
         System.out.println("Distinct elemets count is: " + countDistinctElements(ints));
         findFrequency(ints);
+        findFrequencyWithOrder(ints);
+
+        int[] intsA = new int[]{10, 15, 20, 15, 30, 30, 5};
+        int[] intsB = new int[]{30, 5, 30, 80};
+        System.out.println("Intersection count: " + intersection(intsA, intsB));
+        System.out.println("Distinct Intersection count: " + distinctIntersection(intsA, intsB));
+        System.out.println("Union count: " + union(intsA, intsB));
+
+        int[] sum = new int[]{2, 4, 6, 3};
+        System.out.println("Is Sum pair present: " + sumPair(sum, 10));
+
+        int[] zero = new int[]{2, 4, -6, 3};
+        System.out.println("Is SUB ZERO present: " + subZero(zero));
+
+        System.out.println("Is given sum sub-array sum present: " + subSumArray(sum, 10));
+
+        int[] longest = new int[]{2, 2, 4, 2, 2, 4, -6, 3};
+        System.out.println("Is given sum longest sub-array sum present: " + longestSubSumArray(longest, 10));
+
+        int[] ones = new int[]{0, 0, 1, 0, 1, 1, 0, 0};
+        System.out.println("Is given sum longest sub-array (1s and 0s) sum present: " + longestSubArray(ones));
+
+        int[] one = new int[]{0, 0, 1, 0, 1, 1, 0, 0};
+        int[] two = new int[]{1, 1, 1, 0, 1, 1, 0, 1};
+        System.out.println("Longest binary sub-array sum: " + longestSubArray(one, two));
+
+        int[] consecutive = new int[]{1, 2, 9, 3, 4};
+        System.out.println("Longest Consecutive array: " + longestConsecutiveElements(consecutive));
     }
 
     /**
@@ -168,4 +195,219 @@ public class Hashing {
         }
         return map;
     }
+
+    public static LinkedHashMap<Integer, Integer> findFrequencyWithOrder(int[] ints) {
+
+        /**
+         * A linkedHashMap maintains the order, what is inserted first into the hashmap,
+         * will be present at the first in the LinkedHashMap.
+         */
+        LinkedHashMap<Integer, Integer> map = new LinkedHashMap<>();
+        for (int i: ints) {
+            if (map.containsKey(i)) {
+                int count = map.get(i);
+                map.replace(i, count + 1);
+            } else {
+                map.put(i, 1);
+            }
+        }
+        for (Map.Entry<Integer, Integer> s: map.entrySet()) {
+            System.out.println(s.getKey() + " --> " + s.getValue());
+        }
+        return map;
+    }
+
+    public static int intersection(int[] intsA, int[] intsB) {
+        int counter = 0;
+        LinkedHashMap<Integer, Integer> hashMap = findFrequencyWithOrder(intsA);
+        for (Integer i : intsB) {
+            if (hashMap.containsKey(i)) {
+                counter = counter + 1;
+            }
+        }
+        return counter;
+    }
+
+    /**
+     * In this solution to get distinct intersection we maintain a count,
+     * alternatively, we can remove it from the map (without count - SET can be used).
+     * But, count is better as data is not mutated!
+     */
+    public static int distinctIntersection(int[] intsA, int[] intsB) {
+        int counter = 0;
+        LinkedHashMap<Integer, Integer> hashMap = new LinkedHashMap<>();
+        for (int i: intsA) {
+            hashMap.put(i, 0);
+        }
+
+        for (Integer i : intsB) {
+            if (hashMap.containsKey(i) && hashMap.get(i) == 0) {
+                counter = counter + 1;
+                hashMap.replace(i, hashMap.get(i) + 1);
+            }
+        }
+        return counter;
+    }
+
+    /**
+     * Return the count of the union set.
+     *
+     */
+    public static int union(int[] intsA, int[] intsB) {
+        HashSet<Integer> set = new HashSet<>();
+
+        for (Integer i: intsA) {
+            set.add(i);
+        }
+
+        for (Integer k: intsB) {
+            set.add(k);
+        }
+
+        return set.size();
+    }
+
+    // 2, 4, 6, 3 - 9
+    public static boolean sumPair(int[] intsA, int sum) {
+        HashSet<Integer> set = new HashSet<>();
+
+        for (Integer i: intsA) {
+            if (set.contains(sum - i)) {
+                return true;
+            }
+            set.add(i);
+        }
+        return false;
+    }
+
+
+    /**
+     * Return True if the array has a sub array who sum is Zero.
+     * If the prefix SUM array contains duplicates, it means that there is a subarray with SUM ZERO
+     * Or if ZERO is present in the prefix SUM array.
+     */
+    public static boolean subZero(int[] intsA) {
+
+        int[] sumArray = new int[10];
+        HashSet<Integer> set = new HashSet<>();
+
+        sumArray[0] = intsA[0];
+        set.add(sumArray[0]);
+
+        for (int i = 1; i < intsA.length; i++) {
+            sumArray[i] = sumArray[i - 1] + intsA[i];
+            if (set.contains(sumArray[i]) || sumArray[i] == 0) {
+                return true;
+            }
+            set.add(sumArray[i]);
+        }
+        return false;
+    }
+
+    /**
+     * Find if a sub-array is present with the given SUM.
+     * Similar to the prior problem (SUM is ZERO for prior problem)
+     */
+    public static boolean subSumArray(int[] intsA, int sum) {
+        int sumValue = 0;
+        HashSet<Integer> set = new HashSet<>();
+
+        sumValue = intsA[0];
+        set.add(sumValue);
+
+        for (int i = 1; i < intsA.length; i++) {
+            sumValue = sumValue + intsA[i];
+            if (set.contains(sumValue - sum) || sumValue == sum) {
+                return true;
+            }
+            set.add(sumValue);
+        }
+        return false;
+    }
+
+    /**
+     * Hint: Use a hashmap and also store the index (first occurrence) of each element.
+     */
+    public static int longestSubSumArray(int[] intsA, int sum) {
+        int sumValue = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int max = 0;
+
+        sumValue = intsA[0];
+        map.put(sumValue, 0);
+
+        for (int i = 1; i < intsA.length; i++) {
+            sumValue = sumValue + intsA[i];
+            if (map.containsKey(sumValue - sum)) {
+                max = Math.max(i - map.get(sumValue - sum), max);
+            } else {
+                map.put(sumValue, i);
+            }
+
+            if (sumValue == sum) {
+                max = Math.max(max, i + 1);
+            }
+        }
+        return max;
+    }
+
+    /**
+     * Longest subarray with equal number of 1s and 0s.
+     * With 1s nd 0s replaced with -1, the problem reduces to finding the longest sub-array with SUM = 0
+     */
+    public static int longestSubArray(int[] intsA) {
+
+        for (int i = 0; i < intsA.length; i++) {
+            if (intsA[i] == 0) {
+                intsA[i] = -1;
+            }
+        }
+
+        return longestSubSumArray(intsA, 0);
+    }
+
+    /**
+     * Longest span of sub-srray with the same sum.
+     * Both the sub-array should be of the same start and end index.
+     * But 1s and 0s can be ordered in a different way.
+     * Note: Length of both the binary arrays are same.
+     *
+     * Solution: intsA - intsB, then the result is intsC,
+     * Find the longest sub-array with sum as ZERO
+     */
+    public static int longestSubArray(int[] intsA, int[] intsB) {
+        int[] intsC = new int[intsA.length];
+        for (int i = 0; i < intsA.length; i++) {
+            intsC[i] = intsA[i] - intsB[i];
+        }
+        return longestSubSumArray(intsC, 0);
+
+    }
+
+    /**
+     * To find if an array contains consecutive numbers in any order.
+     * If yes, which is the longest one.
+     */
+    public static int longestConsecutiveElements(int[] intsA) {
+        HashSet<Integer> set = new HashSet<>();
+        int max = 0;
+
+        for (int i = 0; i < intsA.length; i++) {
+            set.add(intsA[i]);
+        }
+
+        for (int i = 0; i < intsA.length; i++) {
+            if (!set.contains(intsA[i] - 1)) {
+                int current = 1;
+                while (set.contains(intsA[i] + current)) {
+                    current++;
+                    max = Math.max(current, max);
+                }
+            }
+        }
+        return max;
+    }
+
+
+
 }
