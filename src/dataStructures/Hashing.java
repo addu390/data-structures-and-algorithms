@@ -57,6 +57,12 @@ public class Hashing {
 
         int[] consecutive = new int[]{1, 2, 9, 3, 4};
         System.out.println("Longest Consecutive array: " + longestConsecutiveElements(consecutive));
+
+        int[] distinct = new int[]{10, 20, 10, 10, 30, 40};
+        distinctElementsWindow(distinct, 4);
+
+        int[] nByK = new int[]{30, 10, 20, 20, 20, 10, 40, 30, 30};
+        nByKOccurrence(nByK, 4);
     }
 
     /**
@@ -407,6 +413,95 @@ public class Hashing {
         }
         return max;
     }
+
+    /**
+     * Count the number of distinct elements in each window.
+     * Number of windows : Total number of elements - window size + 1;
+     * The idea is to add all the elements in the first window to the hashmap with the count.
+     * in the next window, remove the first first element and add the next element of the window.
+     * And then add the size of the hashmap to the new array folder the number of distinct elements.
+     */
+    public static void distinctElementsWindow(int[] intsA, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int[] distinct = new int[intsA.length - k + 1];
+        int current = 0;
+
+        for (int i = 0; i < k - 1; i++) {
+            if (map.containsKey(intsA[i])) {
+                map.put(intsA[i], map.get(intsA[i]) + 1);
+            } else {
+                map.put(intsA[i], 1);
+            }
+        }
+        distinct[current] = map.size();
+
+        for (int i = k; i < intsA.length; i++) {
+
+            if (map.containsKey(intsA[current]) && map.get(intsA[current]) == 1) {
+                map.remove(intsA[current]);
+            } else if (map.containsKey(intsA[current]) && map.get(intsA[current]) > 1) {
+                map.put(intsA[current], map.get(intsA[current] - 1));
+            }
+
+            if (map.containsKey(intsA[i])) {
+                map.put(intsA[i], map.get(intsA[i] + 1));
+            } else {
+                map.put(intsA[i], 1);
+            }
+            current++;
+            distinct[current] = map.size();
+        }
+
+        for (Integer i: distinct) {
+            System.out.println(i);
+        }
+    }
+
+    /**
+     * Extension of moores's voting algorithm.
+     * to find the number of elements which are repeated more than n/k times.
+     * Number of such elements cannot be more than (k-1).
+     * Time complexity: O(n * k).
+     * The rejection: When a new element occurs and the map is full, we reduce the count and even the new element is not considered.
+     * This is valid because the maximum number of occurrences is k or more for a given term.
+     */
+    public static void nByKOccurrence(int[] intsA, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < intsA.length; i++) {
+            if (map.containsKey(intsA[i])) {
+                map.put(intsA[i], map.get(intsA[i]) + 1);
+            }
+
+            if (map.size() < k && !map.containsKey(intsA[i])) {
+                map.put(intsA[i], 1);
+            }
+
+            if (!map.containsKey(intsA[i]) && map.size() >= k) {
+                for (Map.Entry<Integer, Integer> m: map.entrySet()) {
+                    if (m.getValue() == 1) {
+                        map.remove(m.getKey());
+                    } else {
+                        map.replace(m.getKey(), m.getValue() - 1);
+                    }
+                }
+            }
+        }
+
+        int nByK = 0;
+        for (Map.Entry<Integer, Integer> m: map.entrySet()) {
+            for (int i = 0; i < intsA.length; i++) {
+                if (intsA[i] == m.getKey()) {
+                    nByK++;
+                }
+            }
+            if (nByK > (intsA.length / k)) {
+                System.out.println(m.getKey());
+            }
+            nByK = 0;
+        }
+    }
+
 
 
 
