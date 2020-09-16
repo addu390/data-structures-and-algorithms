@@ -1,6 +1,5 @@
 package dataStructures;
 
-import com.sun.xml.internal.ws.policy.EffectiveAlternativeSelector;
 
 import java.util.*;
 
@@ -501,8 +500,4 @@ public class Hashing {
             nByK = 0;
         }
     }
-
-
-
-
 }
