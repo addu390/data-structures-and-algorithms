@@ -33,7 +33,7 @@ public class MergeSort {
 
         while (i < a.length && j < b.length) {
             if (a[i] >= b[j]) {
-                System.out.println("Adding : " + b[i]);
+                System.out.println("Adding : " + b[j]);
                 j++;
             } else {
                 System.out.println("Adding : " + a[i]);
@@ -41,6 +41,7 @@ public class MergeSort {
             }
         }
 
+        // Add rest of the elements.
         while (i < a.length) {
             System.out.println("Adding : " + a[i]);
             i++;
