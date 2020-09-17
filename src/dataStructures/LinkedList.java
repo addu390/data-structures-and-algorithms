@@ -115,6 +115,45 @@ public class LinkedList {
      *
      * Method #4: Store all nodes in a HashSet and check if it is already present, if yes -> there's a loop.
      * Space complexity of O(size of linked list).
+     *
+     * Method #5: Floyd's Cycle: 2 pointers, one moves one point at a time, and the other moves points at a time.
+     * If there is a loop, the two pointers will meet.
      */
+
+    /**
+     * LRU Cache Design:
+     * LRU: Least Recently Used
+     * Based on temporal locality: Which means that an item accessed now is very likely to be accessed in the near future.
+     * The most recently used item is at the top, in case of a MISS, the last item is removed and the new item is added to the top.
+     * Terminology: HIT and MISS.
+     * Data structure for this implementation?
+     * If an Array is used, Both HIT and MISS will have a time complexity of O(n).
+     *
+     * Find a data structure such that HIT and MISS has a complexity of O(1) on an average.
+     * Quick Answer: Doubly Linked List with Hashing.
+     * Step #1: Number 10 is accessed (MISS), Create a Doubly Linked List with Head (Node) as 10 and a HashMap with (10, Node).
+     * Step #2: Number 20 is accessed (MISS), Change head to 20 and HashMap with (10, Node) and (20, Node).
+     * Step #3: Number 10 is accessed (HIT), check in the HaspMap (10 is present), Make that node the Head of the Linked List.
+     * To remove the last Node, a tail pointer (c++) or reference (Java) is maintained in the Linked List.
+     */
+
+    /**
+     * Given a Singly Linked List, check if the LinkedList is Palindrome or not.
+     * Naive Approach: To use a stack (First In Last Out).
+     * First For loop: PUSH all elements of the linked list into the Stack.
+     * Second For loop: POP elements and check if the elements match - If YES: PALINDROME.
+     * O(n) time complexity and Auxiliary space.
+     *
+     * An other approach with O(n) time complexity and O(1) Auxiliary Space.
+     * Find the middle node using two pointer (SLOW - x1 and FAST - x2).
+     * Reverse all elements after middle node.
+     * Compare Node from First and Middle.
+     * If they are same - PALINDROME.
+     */
+
+    /**
+     * Linked List problems: http://cslibrary.stanford.edu/105/LinkedListProblems.pdf
+     */
+
 
 }
