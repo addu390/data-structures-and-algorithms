@@ -23,6 +23,12 @@ public class Stack {
 
     public static void main(String[] args) {
         stack();
+
+        int[] span = new int[]{13, 15, 12, 14, 16};
+        stockSpan(span);
+        stockSpanV2(span);
+        previousGreatestElement(span);
+        nextGreatestElement(span);
     }
 
     /**
@@ -107,5 +113,177 @@ public class Stack {
 
     /**
      * Two stacks in a single array.
+     * The top for stack one is arr[0] and top for stack two is arr[arr.size]
+     * The stack two does not start from middle of the array for efficient use of space between the two stacks.
+
+     * K stacks in an array:
+     * Input - push(stack number), but all the stack are present in the same array.
+     * The easy approach: have start and end defined for each stack, but this would result - inefficient use of space.
+     * Though there is space in the second stack, the first stack cannot push more elements.
+     *
+     * Solution:
+     * stackArray - The actual stack
+     * Array top[]: holds the top of all the K arrays, which is initially [-1, -1, -1] for K = 3.
+     * Let's say the stack names are 0, 1, 2.
+     * stack.push(10, 0) -> push 10 to 0th stack
+     * stack.push(20, 0) -> push 20 to 0th stack
+     *
+     * nextArray: Holds the next element in the stack, example: next of 20 is 10. [1, 2, 3.., -1]
+     * Variable freeTop: 0 (initial value)
+     *
+     * Example: stack.push(10, 0)
+     * 1. Now that freeTop is 0, stackArray[freeTop] = 10
+     * 2. freeTop = freeTop + 1 -> (freeTop = 1)
+     * 3. Update nextArray[] with previous Top -> nextArray[0] = -1. (next element of the stack is below it).
+     * 4. Update top[] -> top[0] = 0
      */
+
+    /**
+     * Stock span, what is span: consecutive number of days before the current number
+     * (including the current number - so minimum span is 1) which is lesser or equal.
+     * Example: [13, 15, 12, 14, 16]: [1, 2, 1, 2, 5]
+     * Given an array, find the stock span of the array.
+     * Naive approach: O(n^2)
+     */
+    public static void stockSpan(int[] array) {
+        int[] spanArray = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            int span = 1;
+            for (int j = i - 1; j >= 0; j--) {
+                if (array[j] <= array[i]) {
+                    span = span + 1;
+                } else {
+                    break;
+                }
+             }
+            spanArray[i] = span;
+        }
+
+        for (int i = 0; i < spanArray.length; i++) {
+            System.out.println(spanArray[i]);
+        }
+    }
+
+    /**
+     * Efficient solution for stock span.
+     * For element find the closest greater element on the left of it.
+     * SPAN = Current index - index of closest greater element is the span.
+     * If there is no closest greater element, then SPAN = current + 1
+     */
+    public static void stockSpanV2(int[] array) {
+        ArrayDeque<Integer> stack = new ArrayDeque<>();
+        int[] spanArray = new int[array.length];
+
+        stack.push(0);
+        spanArray[0] = 1;
+
+        for (int i = 1; i < array.length; i++) {
+            while (!stack.isEmpty() && array[stack.peek()] <= array[i]) {
+                stack.pop();
+            }
+            spanArray[i] = stack.isEmpty() ? i + 1 : i - stack.peek();
+            stack.push(i);
+        }
+
+        System.out.println("=====================");
+        for (int i = 0; i < spanArray.length; i++) {
+            System.out.println(spanArray[i]);
+        }
+    }
+
+    /**
+     * Previous greater element on the left of every element in an array.
+     * The implementation is similar as explained above.
+     */
+    public static void previousGreatestElement(int[] array) {
+        ArrayDeque<Integer> stack = new ArrayDeque<>();
+
+        int[] spanArray = new int[array.length];
+
+        stack.push(array[0]);
+        spanArray[0] = -1;
+
+        for (int i = 1; i < array.length; i++) {
+            while (!stack.isEmpty() && stack.peek() <= array[i]) {
+                stack.pop();
+            }
+            spanArray[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(array[i]);
+        }
+
+        System.out.println("=====================");
+        for (int i = 0; i < spanArray.length; i++) {
+            System.out.println(spanArray[i]);
+        }
+    }
+
+    /**
+     * Similarly, the next greatest element:
+     * It is the exact same version of the prior problem, instead start traversing the array in the reverse direction.
+     */
+    public static void nextGreatestElement(int[] array) {
+        ArrayDeque<Integer> stack = new ArrayDeque<>();
+
+        int[] spanArray = new int[array.length];
+
+        stack.push(array[array.length - 1]);
+        spanArray[array.length - 1] = -1;
+
+        for (int i = array.length - 2; i >= 0; i--) {
+            while (!stack.isEmpty() && stack.peek() <= array[i]) {
+                stack.pop();
+            }
+            spanArray[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(array[i]);
+        }
+
+        System.out.println("=====================");
+        for (int i = 0; i < spanArray.length; i++) {
+            System.out.println(spanArray[i]);
+        }
+    }
+
+    /**
+     * Largest rectangle area in a histogram:
+     * Naive solution: Find the total area possible for each bar, by finding the left and right min.
+     * ie. stop after you find a smaller bar on the left and right of the current bar.
+     * Complexity: O(n^2)
+     *
+     * Better solution O(n):
+     * Find previous and next smaller element to find the area.
+     * Just like the previousGreatestElement and nextGreatestElement, find previousSmallestElement and nextSmallestElement
+     * Find the area for all such rectangles to find the biggest one
+     * But because of the pre-computation of two arrays, the auxiliary space complexity is O(2n) -> O(n)
+     */
+
+    /**
+     * Give a matrix (list if lists) -> of 1s and 0s
+     * Find the largest rectangle with 1s - Sub matrix with 1s.
+     * It is a largest rectangle area in a histogram,
+     * example:
+     * [[0, 1, 1, 0]
+     *  [1, 1, 1, 1]
+     *  [1, 1, 1, 1]
+     *  [1, 1, 1, 0]]
+     *
+     *  Start from the start and find the area for each row:
+     * [[0, 1, 1, 0]
+     *  [1, 2, 2, 1]
+     *  [2, 3, 3, 2]
+     *  [3, 4, 0, 0]]
+     *  Note: when zero is the base, it's not incremented (as that is not a contd 1s).
+     */
+
+    /**
+     * get minimum from a stack at O(1)
+     *
+     * Solution #1: Have an Auxiliary stack such that the minimum element is always at the top.
+     * Aux stack: Push the first element.
+     * Push only if the successive push elements are smaller than the current aux peek.
+     * As of pop, pop only when it is equal.
+     * For aux: Push when it is smaller and pop when it is equal.
+     *
+     * Solution #2: Without Aux stack.
+     */
+
 }
