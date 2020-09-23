@@ -252,8 +252,15 @@ public class Stack {
      * Better solution O(n):
      * Find previous and next smaller element to find the area.
      * Just like the previousGreatestElement and nextGreatestElement, find previousSmallestElement and nextSmallestElement
-     * Find the area for all such rectangles to find the biggest one
+     * Find the area for all such rectangles to find the biggest one (with current bar being the smallest)
      * But because of the pre-computation of two arrays, the auxiliary space complexity is O(2n) -> O(n)
+     * Array: [6, 2, 5, 4, 1, 5, 6]
+     * Left smallest: [-1, -1, 1, 1, -1, 4, 5]
+     * Right smallest: [1, 4, 3, 4, 7, 7, 7]
+     * (current index - left) * arr(current index) +
+     * (right - current index) * arr(current index)
+     *
+     * Find max of all these values for all of i, max is the largest rectangle area.
      */
 
     /**
