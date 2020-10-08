@@ -1,5 +1,7 @@
 package dataStructures;
 
+import java.util.ArrayDeque;
+
 /**
  * Doubly ended queue -> Deque
  * insertFront
@@ -21,5 +23,14 @@ package dataStructures;
  * 4. 2 priority queue - Add a priority item to the front of the queue, if not to the rear.
  */
 public class Deque {
+
+    public static void main(String[] args) {
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+        deque.addLast(1);
+        deque.addFirst(10);
+        deque.removeFirst();
+        deque.removeLast();
+
+    }
 
 }
