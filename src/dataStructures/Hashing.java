@@ -26,7 +26,7 @@ public class Hashing {
         hastMap();
 
         int[] ints = new int[]{2, 1, 2, 3, 1, 10};
-        System.out.println("Distinct elemets count is: " + countDistinctElements(ints));
+        System.out.println("Distinct elements count is: " + countDistinctElements(ints));
         findFrequency(ints);
         findFrequencyWithOrder(ints);
 
@@ -331,7 +331,7 @@ public class Hashing {
     }
 
     /**
-     * Hint: Use a hashmap and also store the index (first occurrence) of each element.
+     * Hint: Use a hashmap and also store the index (first occurrence - SUM) of each element.
      */
     public static int longestSubSumArray(int[] intsA, int sum) {
         int sumValue = 0;
