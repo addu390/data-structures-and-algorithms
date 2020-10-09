@@ -42,11 +42,42 @@ public class Tree {
 
     }
 
+    /**
+     * Print only the root node.
+     * @param node
+     */
     public static void inorder(TreeNode node) {
         if (node != null) {
             inorder(node.left);
             System.out.println(node.data);
             inorder(node.right);
+        }
+    }
+
+    public static void preorder(TreeNode node) {
+        if (node != null) {
+            System.out.println(node.data);
+            inorder(node.left);
+            inorder(node.right);
+        }
+    }
+
+    public static void postorder(TreeNode node) {
+        if (node != null) {
+            inorder(node.left);
+            inorder(node.right);
+            System.out.println(node.data);
+        }
+    }
+
+    /**
+     * Height of a Binary tree: Maximum number of nodes from root to leaf.
+     */
+    public static int height(TreeNode node) {
+        if (node != null) {
+            return 0;
+        } else {
+            return Math.max(height(node.left), height(node.right));
         }
     }
 
