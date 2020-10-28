@@ -2,6 +2,10 @@ package dataStructures;
 
 import dataStructures.impl.TreeNode;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
 /**
  * Intro:
  * 1. A hierarchical data structure.
