@@ -1,5 +1,7 @@
 package algorithms;
 
+import java.util.Arrays;
+
 /**
  * There's already a section of plain recursion,
  * The simple idea of dynamic programming is to store the result of sub-problems of recursion.
@@ -14,10 +16,26 @@ package algorithms;
  * 4. Search Closest Word.
  * 5. Resource Allocation.
  * and much more.
+ *
+ * ie. In plain recursion, if some of the sub-problems are solved again and again:
+ * They can be optimised by storing and using it the next time.
  */
 public class DynamicProgramming {
 
     /**
      * Memoization: 
      */
+
+    /**
+     * Given n - Find the nth fibo number
+     * Refer Class: Memo
+     */
+    public static int fibo(int n) {
+
+        if (n == 0 || n == 1) {
+            return n;
+        } else {
+            return fibo(n - 1) + fibo(n - 2);
+        }
+    }
 }
