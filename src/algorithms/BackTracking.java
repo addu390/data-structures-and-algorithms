@@ -4,6 +4,10 @@ public class BackTracking {
 
     /**
      * In most cases, a backtracking solution will have a isSafe function, which prevents generation of further recursions.
+     * Backtracking is a general algorithm for finding all (or some) solutions to some computational problems,
+     * notably constraint satisfaction problems, that incrementally builds candidates to the solutions,
+     * and abandons a candidate ("backtracks") as soon as it determines that the candidate
+     * cannot possibly be completed to a valid solution
      *
      */
     public static void main(String[] args) {
