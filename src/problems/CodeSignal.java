@@ -1,6 +1,5 @@
 package problems;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -42,6 +41,6 @@ public class CodeSignal {
                 return entry.getKey();
             }
         }
-        return "";
+        return "_";
     }
 }
