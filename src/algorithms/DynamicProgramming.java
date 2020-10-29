@@ -1,7 +1,5 @@
 package algorithms;
 
-import java.util.Arrays;
-
 /**
  * There's already a section of plain recursion,
  * The simple idea of dynamic programming is to store the result of sub-problems of recursion.
@@ -23,12 +21,8 @@ import java.util.Arrays;
 public class DynamicProgramming {
 
     /**
-     * Memoization: 
-     */
-
-    /**
      * Given n - Find the nth fibo number
-     * Refer Class: Memo
+     * Refer Class: Memo (Example for Memoization)
      */
     public static int fibo(int n) {
 

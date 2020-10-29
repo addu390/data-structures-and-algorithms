@@ -1,5 +1,8 @@
 package problems;
 
+/**
+ * A classic example for backtracking.
+ */
 public class RatMaze {
     static int N;
 
