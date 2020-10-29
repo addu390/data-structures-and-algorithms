@@ -12,6 +12,8 @@ public class BackTracking {
         int n = str.length();
         permute(str, 0, n - 1);
 
+        System.out.println(Math.floor(0.99));
+
     }
 
     /**
