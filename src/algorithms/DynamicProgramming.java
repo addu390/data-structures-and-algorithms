@@ -32,4 +32,21 @@ public class DynamicProgramming {
             return fibo(n - 1) + fibo(n - 2);
         }
     }
+
+    /**
+     * Similar to Memoization (Top down)
+     * Tabulation is an other way of implementing Dynamic Programming (Bottom up)
+     * Let's say solution for N is required, we compute and store values for 0, 1, 3...N
+     * Taking the same example to find fibo of nth element,
+     */
+    public static int fiboTabulation(int n) {
+        int[] f = new int[n + 1];
+        f[0] = 0;
+        f[1] = 1;
+
+        for (int i = 2; i < n; i++) {
+            f[i] = f[i - 1] + f[i - 2];
+        }
+        return f[n];
+    }
 }
