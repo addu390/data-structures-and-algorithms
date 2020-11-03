@@ -21,4 +21,10 @@ package dataStructures;
  * Weighted graphs: Graphs where edges are weighted (Can think of it as distance) - Example: Road networks.
  */
 public class Graph {
+
+    /**
+     * Representation of a graph:
+     *
+     *
+     */
 }

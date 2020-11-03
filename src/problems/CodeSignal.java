@@ -7,6 +7,11 @@ import java.util.Map;
 public class CodeSignal {
     public static void main(String[] args) {
 
+        int arr[][] = { { 1, 2, 3},
+                { 4, 5, 6},
+                { 7, 8, 9 }};
+        rotateImage(arr);
+
     }
 
     public static int firstDuplicate(int[] a) {
@@ -43,4 +48,22 @@ public class CodeSignal {
         }
         return "_";
     }
+
+    public static int[][] rotateImage(int[][] a) {
+
+        int[][] res = new int[a.length][a.length];
+
+        int count = 0;
+        for (int i = 0; i < a.length; i++) {
+            res[count][a.length - 1 - i] = a[i][count];
+            count = count + 1;
+            if (count == a.length - 1) {
+                count = 1;
+            }
+        }
+
+        return res;
+
+    }
+
 }

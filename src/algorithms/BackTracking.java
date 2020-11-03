@@ -8,7 +8,6 @@ public class BackTracking {
      * notably constraint satisfaction problems, that incrementally builds candidates to the solutions,
      * and abandons a candidate ("backtracks") as soon as it determines that the candidate
      * cannot possibly be completed to a valid solution
-     *
      */
     public static void main(String[] args) {
 
@@ -24,7 +23,7 @@ public class BackTracking {
      * N queen problem: in a N x N chess board, place queens such that they do not attach each other.
      * Print all permutations that does not contain a given sub-string.
      * Rat in a Maze - A binary matric, with 0 (Block) and 1 (Pass), rat starts from top left and cheese at bottom right.
-       (https://www.geeksforgeeks.org/rat-in-a-maze-backtracking-2/) - If there is a way, return the matrix with the path taken.
+     (https://www.geeksforgeeks.org/rat-in-a-maze-backtracking-2/) - If there is a way, return the matrix with the path taken.
      * Sudoku Problem.
      */
 
@@ -38,8 +37,7 @@ public class BackTracking {
     public static void permute(String str, int l, int r) {
         if (l == r) {
             System.out.println(str);
-        }
-        else {
+        } else {
             for (int i = l; i <= r; i++) {
 
                 // Stop the permutation if the substring is found.
@@ -85,4 +83,28 @@ public class BackTracking {
 
         return true;
     }
+
+    /**
+     * Su-do-ku: To solve it, the naive approach is (Number of spaces)^9
+     * But the idea here is to solve it with lesser time complexity, using backtracking.
+     * A perfect example for backtracking:
+     * <p>
+     * Start from 1 to 9
+     * The isSafe function checks if that element is already present in the same row/column
+     * Check if that element is already present in the sub-box.
+     * If False, try with the next number.
+     * But there is a possibility that a condition fails, in such cases, back track to the parent call and change the element.
+     * Back to the parent's parent and so on until a correct solution is obtained.
+     * Solution: https://www.geeksforgeeks.org/sudoku-backtracking-7/
+     * <p>
+     * Solution:
+     * 1. o(n^2) -> Find an empty cell (If There are no empty cells, returns True)
+     * 2. For the empty cell, check for safety for 1 (if False, increment until 9).
+     * 3. If True from IsSafe, put the element in the grid and move to the next empty cell -> Recursively call the function,
+     * since the position is filled, the next slot will be selected.
+     * 4. If the function name is "sudoku" for example, if (sudoku()) { return true;} else {a[i][j] = 0}
+     * replacing it with zero to backtrack and try with the next number, for example if 3 failed eventually, try with 4.
+     * 5. In the worsrt case, if none of them work, return False.
+     */
 }
+
