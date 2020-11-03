@@ -61,9 +61,7 @@ public class CodeSignal {
                 count = 1;
             }
         }
-
         return res;
-
     }
 
 }
