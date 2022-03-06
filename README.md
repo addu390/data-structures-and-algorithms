@@ -1,5 +1,4 @@
-## Data structures and algorithms (DSA)
-- The repository will constantly be updated with new problems!
-- Navigating is quite easy, go by the Class names.
+# Data structures and algorithms (DSA)
 
-Credits: GeeksForGeeks
+Leetcode 75 problems to master is [here](https://docs.google.com/spreadsheets/d/1LBIOy7nAzDZmRlrIyslY62gZY7IUUTkjTT-5h8gT0bU/edit?usp=sharing)
+
