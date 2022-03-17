@@ -6,6 +6,9 @@ public class LeetCode {
 
     public static void main(String[] args) {
 
+        int[] a = {0, 12, 1, 21, 8, 9, 20};
+        System.out.print(lengthOfLIS(a));
+
     }
 
     /**
@@ -46,6 +49,7 @@ public class LeetCode {
         for (int i = 1; i < amount + 1; i++) {
             for (int j = 0; j < coins.length; j++) {
                 if (i - coins[j] >= 0) {
+                    // The +1 is the count for the coin: coin[j]
                     dp[i] = Math.min(dp[i], 1 + dp[i - coins[j]]);
                 }
             }
@@ -61,7 +65,21 @@ public class LeetCode {
      * Question: Given an integer array nums, return the length of the longest strictly increasing subsequence.
      * A subsequence is a sequence that can be derived from an array by deleting some or no elements without changing the order of the remaining elements. For example, [3,6,2,7] is a subsequence of the array [0,3,1,6,2,2,7].
      */
-    public int lengthOfLIS(int[] nums) {
-        return 0;
+    // Brute Force: For every element we have 2 options: to include or not in the sequence (Hence, 2^n time).
+    // DP: Time complexity O(n^2).
+    public static int lengthOfLIS(int[] nums) {
+        int[] dp = new int[nums.length];
+        Arrays.fill(dp, 1);
+
+        // Iterate in reverse
+        for (int i = nums.length - 1; i >= 0; i--) {
+            // Check for element after i, if they are greater that nums[i]
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[j] > nums[i]) {
+                    dp[i] = Math.max(dp[i], 1 + dp[j]);
+                }
+            }
+        }
+        return Arrays.stream(dp).max().getAsInt();
     }
 }
