@@ -3,6 +3,8 @@ package problems.leetcode.dynamicProgramming;
 import java.util.Arrays;
 
 // Start from the last and check for every element after "i" until nums.length
+// Starting from the last, find the maximum subsequence for every position (i to end).
+// Then, find the largest subsequence found so far.
 public class LIS {
     public int lengthOfLIS(int[] nums) {
         int[] dp = new int[nums.length];
