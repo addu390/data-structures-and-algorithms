@@ -154,6 +154,4 @@ public class LinkedList {
     /**
      * Linked List problems: http://cslibrary.stanford.edu/105/LinkedListProblems.pdf
      */
-
-
 }
