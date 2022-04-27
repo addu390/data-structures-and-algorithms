@@ -1,5 +1,7 @@
 package problems.leetcode.dynamicProgramming;
 
+// Refer to images/neetcode-LCS
+
 // Longest Common Subsequence between two strings.
 // Match: 1 + diagonally down, else: Max(right, down).
 
