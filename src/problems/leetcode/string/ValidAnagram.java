@@ -1,10 +1,14 @@
-package problems.leetcode.array;
+package problems.leetcode.string;
 
 import java.util.HashMap;
 import java.util.Map;
 
 // <Class name>::<method name>
 // An other solution without extra space: Sort the two strings and compare.
+// An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase,
+// typically using all the original letters exactly once.
+
+// Same set of characters.
 public class ValidAnagram {
 
     public boolean isAnagram(String s, String t) {
@@ -16,6 +20,7 @@ public class ValidAnagram {
             return true;
         }
 
+        // Character, Count
         Map<Character, Integer> sMap = new HashMap<>();
         Map<Character, Integer> tMap = new HashMap<>();
 
