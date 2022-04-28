@@ -1,4 +1,4 @@
-package problems.leetcode.tree;
+package problems.leetcode.graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
