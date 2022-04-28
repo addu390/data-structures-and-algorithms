@@ -53,6 +53,7 @@ public class GraphValidTree {
     }
 
     // False: Not valid, True: Valid.
+    // To ensure all nodes are visited and there are no cycles.
     private boolean dfs(int currentNode, int parentNode, HashMap<Integer, List<Integer>> map, boolean[] visited) {
         if (visited[currentNode]) {
             return false;
@@ -61,7 +62,6 @@ public class GraphValidTree {
         visited[currentNode] = true;
 
         for (Integer adjacentNode: map.get(currentNode)) {
-            // Since parent node is
             if (adjacentNode != parentNode && !dfs(adjacentNode, currentNode, map, visited)) {
                 return false;
             }

@@ -34,7 +34,9 @@ public class CourseSchedule {
         return true;
     }
 
+    // Returns true if a course can be taken.
     private boolean dfs(int course, boolean[] visited, HashMap<Integer, List<Integer>> map) {
+        // Cycle
         if (visited[course]) {
             return false;
         }
