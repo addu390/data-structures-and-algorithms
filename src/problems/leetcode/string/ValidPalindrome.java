@@ -2,6 +2,30 @@ package problems.leetcode.string;
 
 public class ValidPalindrome {
 
+    public boolean isPalindrome(int x) {
+        if (x < 0) {
+            return false;
+        }
+
+        Integer input = new Integer(x);
+        Integer reverse = 0;
+
+        while (input != 0) {
+            // Let last digit
+            Integer digit = input % 10;
+            reverse = reverse * 10 + digit;
+
+            // remove last digit.
+            input = input / 10;
+        }
+
+        if (x == reverse) {
+            return true;
+        }
+
+        return false;
+    }
+
     // String manipulation with O(n) space.
     public boolean isPalindrome(String s) {
         StringBuilder stringBuilder = new StringBuilder();
