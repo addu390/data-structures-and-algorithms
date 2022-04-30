@@ -44,7 +44,6 @@ public class MaxDepth {
         else {
             return 1 + Math.max(maxDepthDFS(root.left), maxDepthDFS(root.right));
         }
-
     }
 
     public int maxDepthIDFS(TreeNode root) {
