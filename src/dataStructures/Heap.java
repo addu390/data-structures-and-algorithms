@@ -13,7 +13,7 @@ package dataStructures;
  * The root node is always the smallest value in the entire heap.
  * Similarly Max heap, the root node has the highest value in the heap.
  *
- * Taking the array implementation of MIn Heap, the insertions are not O(1).
+ * Taking the array implementation of Min Heap, the insertions are not O(1).
  * As we have to ensure the the descendants are always greater.
  * Array representation of tye below MIN Heap: [10, 30, 40, 35, 36, 42 48]
  * Min Heap:
@@ -31,7 +31,7 @@ package dataStructures;
  * Heapify Operation: For building the heap and extract minimum.
  * Let's take an example, where an element is violating the property of a MIN heap.
  * How do we fix the min heap?
- * Check for the minimum of the left and right node, if there is a smaller element, swap and continue for rest of the sib-trees.
+ * Check for the minimum of the left and right node, if there is a smaller element, swap and continue for rest of the sub-trees.
  * Heapify time complexity: O(log N)
  * With recursion, space complexity: O(H - Height)
  * Iterative solution: O(1) space complexity.
