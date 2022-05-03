@@ -5,6 +5,9 @@ public class BalancedBinaryTree {
         return dfs(root) != -1;
     }
 
+    // After recursion, the height of left and right is eventually decided at level 1 (level after root).
+    // 1 + Max(left, right), as the max length of left or right decides the height of that subtree.
+    // +1 to include the current node at each level.
     private int dfs(TreeNode node) {
 
         if (node == null) {
