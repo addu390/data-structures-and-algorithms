@@ -1,6 +1,6 @@
 package problems.leetcode.string;
 
-public class StringtoInteger {
+public class StringToInteger {
 
     public int myAtoi(String s) {
         char[] chars = s.toCharArray();
