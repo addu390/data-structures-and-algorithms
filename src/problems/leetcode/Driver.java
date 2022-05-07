@@ -9,6 +9,28 @@ public class Driver {
         int test = input - '0'; // 5
 
         /**
+         * https://www.youtube.com/watch?v=DKCbsiDBN6c
+         *
+         * Backtracking: When there are multiple solutions and you want all the solutions.
+         * The brute force approach (Example: Generate Parenthesis)
+         * An other: 3 spots, 3 people, how many possible arrangements: 3!
+         * All arrangements: State Space Tree.
+         * Backtracking problem will have constraints, check for those and add that to the solution.
+         *
+         * Notes:
+         * - Brute Force approach finds all the possible solutions and selects desired solution per given the constraints.
+         * - Dynamic Programming also uses Brute Force approach to find the OPTIMUM solution, either maximum or minimum.
+         * - Backtracking also uses Brute Force approach but to find ALL the solutions.
+         * - Solutions to the Backtracking problems can be represented as State-Space Tree.
+         * - The constrained applied to find the solution is called Bounding function.
+         * - Backtracking follows Depth-First Search method.
+         * - Branch and Bound is also a Brute Force approach, which uses Breadth-First Search method.
+         *
+         * Graph Coloring,N Queens, Sum of subsets, etc.
+         */
+
+
+        /**
          *** Bucket Sort:
          * Index i represents the number and value represents the count.
          * This way, iterating the bucket sort-array gives the sorted array.
