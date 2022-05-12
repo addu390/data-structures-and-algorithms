@@ -1,7 +1,5 @@
 package problems.leetcode.dynamicProgramming;
 
-import java.util.stream.IntStream;
-
 // Minimum number of jumps
 // Greedy O(n), DP: O(n^2)
 // Sort of a 1D BFS.
