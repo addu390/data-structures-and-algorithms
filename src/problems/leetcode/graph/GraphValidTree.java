@@ -63,6 +63,7 @@ public class GraphValidTree {
 
         for (Integer adjacentNode: map.get(currentNode)) {
             if (adjacentNode != parentNode && !dfs(adjacentNode, currentNode, map, visited)) {
+                // Cycle detected.
                 return false;
             }
         }
