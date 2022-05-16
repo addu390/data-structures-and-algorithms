@@ -1,4 +1,4 @@
-package problems.leetcode.graph;
+package problems.leetcode.matrix;
 
 import java.util.Objects;
 
