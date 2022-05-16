@@ -1,4 +1,4 @@
-package problems.leetcode.dynamicProgramming;
+package problems.leetcode.backtracking;
 
 import java.util.ArrayList;
 import java.util.List;
