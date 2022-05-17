@@ -5,8 +5,9 @@ public class Driver {
     public static void main(String[] args) {
         // A general tip to subtract with the start of the number '0' or the character 'a'
         // to get the offset, in other words the ith number or alphabet.
-        char input = '5';
-        int test = input - '0'; // 5
+        System.out.print('5' - '0'); // = 5
+        System.out.print('B' - 'A'); // = 1
+        System.out.print('z' - 'a'); // = 25
 
         /**
          * https://www.youtube.com/watch?v=DKCbsiDBN6c
