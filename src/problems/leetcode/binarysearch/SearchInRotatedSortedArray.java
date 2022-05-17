@@ -1,4 +1,4 @@
-package problems.leetcode.array;
+package problems.leetcode.binarysearch;
 
 public class SearchInRotatedSortedArray {
 
