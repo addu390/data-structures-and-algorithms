@@ -17,4 +17,8 @@ public class BuyAndSell {
 
         return profit;
     }
+
+    public static void main(String[] args) {
+        System.out.print(maxProfit(new int[]{1, 0}));
+    }
 }
