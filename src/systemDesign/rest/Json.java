@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Json {
 
@@ -57,12 +59,22 @@ public class Json {
         sortedMap.put(1, employee2);
 
         // Unknown class
-        String validation = "firstName==Mike";
-        HashMap<String,String> map2 = objectMapper.readValue(eString, HashMap.class);
+        // Prefix
+        // "firstName==^[M-S][i-m]"; - Range Prefix
+        // "firstName==^Mi"; - Prefix
+        // "firstName==ke$" - Suffix
+        String validation = "firstName==ke$";
+        HashMap<String, String> map2 = objectMapper.readValue(eString, HashMap.class);
         String[] vals = validation.split("==");
-        for(Map.Entry e : map2.entrySet()) {
-            if  (vals[0].equals(e.getKey()) && vals[1].equals(e.getValue())) {
-                System.out.println(e.getKey() + ":" + e.getValue());
+
+        for(Map.Entry entry : map2.entrySet()) {
+            if  (vals[0].equals(entry.getKey())) {
+                Pattern pattern = Pattern.compile(vals[1]);
+                Matcher matcher = pattern.matcher(entry.getValue().toString());
+                if (matcher.find()) {
+                    System.out.print(matcher.group());
+                    System.out.println(entry.getKey() + ":" + entry.getValue());
+                }
             }
         }
     }
