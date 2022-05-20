@@ -1,6 +1,5 @@
 package systemDesign.rest;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -8,10 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Json {
 
@@ -21,7 +17,7 @@ public class Json {
         Employee employee1 = objectMapper.readValue("{\"id\" : 1, \"firstName\": \"Mike\", \"lastName\": \"Botoskwi\", \"departmentId\": 2, \"salary\": 150000}", Employee.class);
 
         Employee employee2 = new Employee(2, "Barret", "Jones", 3, 250000);
-        System.out.print(objectMapper.writeValueAsString(employee2));
+        //System.out.print(objectMapper.writeValueAsString(employee2));
 
         // For List of JSON.
         JavaType type = objectMapper.getTypeFactory().constructCollectionType(List.class, Employee.class);
@@ -31,7 +27,7 @@ public class Json {
         employeeList2.add(employee1);
         employeeList2.add(employee2);
 
-        System.out.print(objectMapper.writeValueAsString(employeeList2));
+        //System.out.print(objectMapper.writeValueAsString(employeeList2));
 
         // File
         URL url = Json.class.getResource("input.json");
@@ -45,14 +41,20 @@ public class Json {
         }
 
         for(Map.Entry<String, Employee> entry: map.entrySet()) {
-            System.out.print("\n");
-            System.out.print(entry.getKey());
-            System.out.print(entry.getValue());
+            //System.out.print("\n");
+            //System.out.print(entry.getKey());
+            //System.out.print(entry.getValue());
         }
         for(String key: map.keySet()) {
         }
         for(Employee key: map.values()) {
         }
+
+        // Ordered Map
+        Map<Integer, Employee> sortedMap = new TreeMap<>((e1, e2) -> e1 - e2);
+        sortedMap.put(3, employee1);
+        sortedMap.put(1, employee2);
+        sortedMap.entrySet().forEach(System.out::println);
     }
 
 
