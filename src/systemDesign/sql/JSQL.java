@@ -2,7 +2,9 @@ package systemDesign.sql;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class JSQL {
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -71,9 +73,87 @@ public class JSQL {
             }
             System.out.println("There are " + count + " records.");
 
+            // Query Example
+            Query query = new Query.QueryBuilder()
+                    .select("*")
+                    .from("employees")
+                    .where("salary > 100000")
+                    .build();
+
 
         } catch (Exception e) {
             System.out.println(e);
+        }
+    }
+
+    public static List<Employee> search(Query query) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String searchQuery = String.format("select %s from %s where %s", query.select, query.from, query.where);
+
+        return new ArrayList<>();
+    }
+
+    static class Query {
+        private String select;
+        private String from;
+        private String where;
+        private String groupBy;
+
+        public Query(QueryBuilder builder) {
+            this.select = builder.select;
+            this.from = builder.from;
+            this.where = builder.where;
+            this.groupBy = builder.groupBy;
+        }
+
+        static class QueryBuilder {
+            private String select;
+            private String from;
+            private String where;
+            private String groupBy;
+
+            public QueryBuilder() {
+                this.select = "*";
+            }
+
+            public QueryBuilder select(String select) {
+                this.select = select;
+                return this;
+            }
+
+            public QueryBuilder from(String from) {
+                this.from = from;
+                return this;
+            }
+
+            public QueryBuilder where(String where) {
+                this.where = where;
+                return this;
+            }
+
+            public QueryBuilder groupBy(String groupBy) {
+                this.groupBy = groupBy;
+                return this;
+            }
+
+            public Query build() {
+                Query query =  new Query(this);
+                return query;
+            }
+        }
+    }
+
+    class Employee {
+        private Integer id;
+        private String firstName;
+        private String lastName;
+        private Integer departmentId;
+        private Integer salary;
+
+        public Employee(String firstName, String lastName, Integer departmentId) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.departmentId = departmentId;
         }
     }
 }

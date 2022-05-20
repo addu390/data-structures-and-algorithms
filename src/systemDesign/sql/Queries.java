@@ -3,7 +3,7 @@ package systemDesign.sql;
 // https://www.w3schools.com/sql/default.asp
 public class Queries {
     /**
-     // INSET
+     // INSERT
      INSERT INTO table_name (column1, column2, column3, ...)
      VALUES (value1, value2, value3, ...);
 
