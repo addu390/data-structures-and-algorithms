@@ -14,7 +14,8 @@ public class Json {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main(String[] args) throws IOException, URISyntaxException {
-        Employee employee1 = objectMapper.readValue("{\"id\" : 1, \"firstName\": \"Mike\", \"lastName\": \"Botoskwi\", \"departmentId\": 2, \"salary\": 150000}", Employee.class);
+        String eString = "{\"id\" : 1, \"firstName\": \"Mike\", \"lastName\": \"Botoskwi\", \"departmentId\": 2, \"salary\": 150000}";
+        Employee employee1 = objectMapper.readValue(eString, Employee.class);
 
         Employee employee2 = new Employee(2, "Barret", "Jones", 3, 250000);
         //System.out.print(objectMapper.writeValueAsString(employee2));
@@ -54,7 +55,16 @@ public class Json {
         Map<Integer, Employee> sortedMap = new TreeMap<>((e1, e2) -> e1 - e2);
         sortedMap.put(3, employee1);
         sortedMap.put(1, employee2);
-        sortedMap.entrySet().forEach(System.out::println);
+
+        // Unknown class
+        String validation = "firstName==Mike";
+        HashMap<String,String> map2 = objectMapper.readValue(eString, HashMap.class);
+        String[] vals = validation.split("==");
+        for(Map.Entry e : map2.entrySet()) {
+            if  (vals[0].equals(e.getKey()) && vals[1].equals(e.getValue())) {
+                System.out.println(e.getKey() + ":" + e.getValue());
+            }
+        }
     }
 
 
