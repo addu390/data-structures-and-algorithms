@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 // Pronounced "Try", Prefix Tree - Commonly used for autocomplete and spellchecker.
 // Efficiently store strings.
+// Creation: Space: O(alphabet_size(26) * average key length * number of words)
+// Time: O(average key length) for all 3 operations (Search, Insert Delete).
 public class Trie {
     Node root;
 

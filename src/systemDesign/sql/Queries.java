@@ -1,7 +1,7 @@
-package problems.leetcode;
+package systemDesign.sql;
 
 // https://www.w3schools.com/sql/default.asp
-public class SQL {
+public class Queries {
     /**
      // INSET
      INSERT INTO table_name (column1, column2, column3, ...)
