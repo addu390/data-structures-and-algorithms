@@ -58,27 +58,39 @@ public class Json {
         sortedMap.put(3, employee1);
         sortedMap.put(1, employee2);
 
+        abTesting(eString);
+    }
+
+    public static void abTesting(String input) throws IOException {
         // Unknown class
         // Prefix
         // "firstName==^[M-S][i-m]"; - Range Prefix
         // "firstName==^Mi"; - Prefix
         // "firstName==ke$" - Suffix
-        String validation = "firstName==ke$";
-        HashMap<String, String> map2 = objectMapper.readValue(eString, HashMap.class);
-        String[] vals = validation.split("==");
+        // ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> validations = new HashMap<>();
+        validations.put("TYPE1", "firstName==^[A-M]");
+        validations.put("TYPE2", "firstName==^[N-Z]");
+        HashMap<String, String> employee = objectMapper.readValue(input, HashMap.class);
 
-        for(Map.Entry entry : map2.entrySet()) {
-            if  (vals[0].equals(entry.getKey())) {
-                Pattern pattern = Pattern.compile(vals[1]);
-                Matcher matcher = pattern.matcher(entry.getValue().toString());
-                if (matcher.find()) {
-                    System.out.print(matcher.group());
-                    System.out.println(entry.getKey() + ":" + entry.getValue());
+
+        for(Map.Entry validation : validations.entrySet()) {
+            String[] vals = validation.getValue().toString().split("==");
+
+            for(Map.Entry entry : employee.entrySet()) {
+                // When the validation string matches (ex: firstName).
+                if  (vals[0].equals(entry.getKey())) {
+
+                    Pattern pattern = Pattern.compile(vals[1]);
+                    Matcher matcher = pattern.matcher(entry.getValue().toString());
+
+                    if (matcher.find()) {
+                        System.out.println(validation.getKey() + ": " + entry.getKey() + ":" + entry.getValue());
+                    }
                 }
             }
         }
     }
-
 
 
     static class Employee {
