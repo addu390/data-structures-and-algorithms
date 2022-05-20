@@ -1,6 +1,8 @@
 package problems.leetcode.trie;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 // Pronounced "Try", Prefix Tree - Commonly used for autocomplete and spellchecker.
 // Efficiently store strings.
@@ -32,9 +34,31 @@ public class Trie {
         return (lastNode != null && lastNode.isWord);
     }
 
-    public boolean startsWith(String prefix) {
+    public List<String> startsWith(String prefix) {
+        List<String> words = new ArrayList<>();
         Node lastNode = getLast(prefix);
-        return (lastNode != null);
+
+        if (lastNode != null) {
+            if (!lastNode.children.isEmpty()) {
+                findRest(prefix, lastNode, words);
+            } else {
+                words.add(prefix);
+            }
+        }
+        return words;
+    }
+
+    private void findRest(String prefix, Node node, List<String> words) {
+        if (node.isWord) {
+            words.add(prefix);
+        }
+        if (node.children.isEmpty()) {
+            return;
+        }
+
+        for (Character c: node.children.keySet()) {
+            findRest(prefix + c, node.children.get(c), words);
+        }
     }
 
     private Node getLast(String word) {
@@ -59,5 +83,14 @@ public class Trie {
             this.isWord = false;
             this.children = new HashMap<>();
         }
+    }
+
+    public static void main(String[] args) {
+        Trie trie = new Trie();
+        trie.insert("appa");
+        trie.insert("appx");
+        trie.insert("appyb");
+
+        System.out.print(trie.startsWith("appa"));
     }
 }
