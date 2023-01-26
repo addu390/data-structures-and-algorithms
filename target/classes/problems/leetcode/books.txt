@@ -1,2 +1,0 @@
-1,test1,genre1
-2,test2,genre2
