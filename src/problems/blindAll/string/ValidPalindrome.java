@@ -2,6 +2,21 @@ package problems.blindAll.string;
 
 public class ValidPalindrome {
 
+    public static boolean isPalindrome(String string, int i, int k) {
+        String[] strings = string.split("");
+
+        if (strings[i].equals(strings[k])) {
+            // Base case
+            // i == k is for odd string and k - i == 1 for even string.
+            if (i == k || k - i == 1) {
+                return true;
+            }
+        } else {
+            return false;
+        }
+        return isPalindrome(string, i + 1, k - 1);
+    }
+
     public boolean isPalindrome(int x) {
         if (x < 0) {
             return false;
