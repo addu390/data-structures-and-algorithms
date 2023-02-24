@@ -1,4 +1,4 @@
-package algorithms.search;
+package problems.blindAll.array;
 
 /**
  * For an unsorted array, to find the element, complexity is O(n)

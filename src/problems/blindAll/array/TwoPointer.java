@@ -1,4 +1,4 @@
-package algorithms.search;
+package problems.blindAll.array;
 
 public class TwoPointer {
 
