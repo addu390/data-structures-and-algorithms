@@ -14,7 +14,7 @@ public class CountingBits {
     private int count(int x) {
         int count = 0;
         while (x != 0) {
-            x &= x - 1;
+            x &= x - 1; // a &= b is a = a & b;
             count++;
         }
         return count;
